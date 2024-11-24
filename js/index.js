@@ -1,62 +1,56 @@
-// $(document).ready(function(){
-//     $("#clock").click(function(){
-//         $(this).css("color","red");
-//     });
-// });
-    
-    function realtimeClock() {
-        var d = new Date();
-        var h = d.getHours();
-        var m = d.getMinutes();
-        var s = d.getSeconds();
+// Function to display a real-time clock
+function realtimeClock() {
+  const d = new Date();
+  let h = d.getHours();
+  const m = d.getMinutes();
+  const s = d.getSeconds();
 
-        var amPm = (h > 12) ? "PM" : "AM";
+  // Determine AM or PM
+  const amPm = h >= 12 ? "PM" : "AM";
+  h = h > 12 ? h - 12 : h;
 
-        h = (h>12) ? (h-12) : h;
+  // Ensure two-digit formatting for hours, minutes, and seconds
+  const formatNumber = (num) => ("0" + num).slice(-2);
+  const formattedH = formatNumber(h);
+  const formattedM = formatNumber(m);
+  const formattedS = formatNumber(s);
 
-        h = ("0" + h).slice(-2);
-        m = ("0" + m).slice(-2);
-        s = ("0" + s).slice(-2);
+  // Update the clock element with the current time
+  document.getElementById(
+    "clock"
+  ).innerHTML = `${formattedH} : ${formattedM} : ${formattedS} : ${amPm}`;
+}
 
-        document.getElementById("clock").innerHTML =
-        h + " : "+  m+" : "+ s + " : " + amPm ;
+// Update the clock every second
+setInterval(realtimeClock, 1000);
 
-        var l = setTimeout(realtimeClock,500);
-    }
-
-
-
-
-    
-    // SMOOTH SCROLLING PLUS OFFSET FOR FIXED NAV
-
+// Smooth scrolling with an offset for fixed navigation
 $('a[href*="#"]')
-// Remove links that don't actually link to anything
-.not('[href="#"]')
-.not('[href="#0"]')
-.on('click', function(event) {   
-
-    // Make sure this.hash has a value before overriding default behavior
+  // Ignore links that do not link to anything
+  .not('[href="#"]')
+  .not('[href="#0"]')
+  .on("click", function (event) {
+    // Proceed only if there is a valid hash
     if (this.hash !== "") {
+      event.preventDefault(); // Prevent default behavior
 
-        // Store hash
-        var hash = this.hash;
+      const hash = this.hash;
 
-        // Using jQuery's animate() method to add smooth page scroll
-        // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-        // - 70 is the offset/top margin
-        $('html, body').animate({
-            // scrollTop: $(hash).offset().top - 70
-            scrollTop: $(hash).offset().top - 3.875
-        }, 800, function() {
-
-            // Add hash (#) to URL when done scrolling (default click behavior), without jumping to hash
-            if (history.pushState) {
-                history.pushState(null, null, hash); 
-            } else {
-                window.location.hash = hash;
-            } 
-        });
-        return false;    
-    } // End if
-});
+      // Use jQuery's animate() method to create smooth scrolling
+      $("html, body").animate(
+        {
+          // Adjust scrolling position with a 70px offset
+          scrollTop: $(hash).offset().top - 70,
+        },
+        800,
+        function () {
+          // Update the URL with the hash without jumping to the section
+          if (history.pushState) {
+            history.pushState(null, null, hash);
+          } else {
+            window.location.hash = hash;
+          }
+        }
+      );
+    }
+  });
