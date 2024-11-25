@@ -18,7 +18,7 @@ function realtimeClock() {
   // Update the clock element with the current time
   document.getElementById(
     "clock"
-  ).innerHTML = `${formattedH} : ${formattedM} : ${formattedS} : ${amPm}`;
+  ).innerHTML = `${formattedH}  :  ${formattedM}  :  ${formattedS}  :  ${amPm}`;
 }
 
 // Update the clock every second
@@ -55,3 +55,18 @@ $('a[href*="#"]')
       );
     }
   });
+
+  document.querySelectorAll('.carousel-control-prev, .carousel-control-next').forEach(button => {
+    button.addEventListener('click', (e) => {
+        e.preventDefault(); // Ngăn cuộn mặc định khi click
+
+        // Điều khiển carousel
+        if (e.target.closest('.carousel-control-next')) {
+            $('#slides').carousel('next'); // Chuyển đến slide tiếp theo
+        } else {
+            $('#slides').carousel('prev'); // Chuyển đến slide trước
+        }
+    });
+}); 
+
+

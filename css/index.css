@@ -10,11 +10,15 @@ body {
 }
 
 /* clock */
-#clock {
+#clocks {
     width: 100%;
     font-size: 2vw;
     color: yellow;
     margin-top: 30px;
+}
+
+#clock {
+    font-family: "Courier New", Courier, monospace; /* Sử dụng font monospace */
 }
 
 /* navbar */
@@ -24,7 +28,7 @@ body {
 
 .navbar-brand img {
     height: 2rem;
-    /* width: 60px; */
+    width: 60px;
 }
 
 .caption{
@@ -95,6 +99,7 @@ body {
 .landing {
     position: relative;
 
+    /* top:0; */
     height: 100vh;
     width: 100%;
     display: table;
@@ -171,12 +176,26 @@ body {
 }
 
 /* <!-- carousel --> */
+.carousel-item .col-12 {
+    display: block;
+}
+
+/* Trên màn hình lớn (laptop, desktop) hiển thị 3 ảnh */
+@media (min-width: 768px) {
+    .carousel-item .col-md-4 {
+        display: block;
+    }
+}
 
 .carousel-inner img{
-    /* height: 500px; */
-    width: 50%;
-    /* background-size: cover; */
-    background-size:cover;
+  
+    max-width: 100%; /* Đảm bảo ảnh không vượt quá khung chứa */
+    max-height: 100%; /* Giới hạn chiều cao ảnh */
+    object-fit: cover; /* Giữ tỷ lệ, cắt phần thừa nếu cần */
+    width: auto; /* Đảm bảo tỷ lệ không bị bóp méo */
+    height: 50vh; /* Tự điều chỉnh chiều cao theo tỷ lệ */
+    display: block;
+
 }
 .carousel-caption{
     position: absolute;
@@ -194,3 +213,6 @@ body {
     text-shadow: .1rem .1rem .1rem black;
     padding-bottom: 10px;
 }
+
+
+

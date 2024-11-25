@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hai Nút và Canvas</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Nút Bật Nhạc */
+        .button.music {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .button.music:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* Nút Chuyển Trang */
+        .button.link {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .button.link:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px);
+        }
+
+        /* Hiệu ứng khi nhấn nút */
+        .button:active {
+            transform: translateY(2px);
+        }
+
+        /* Ẩn Canvas ban đầu */
+        canvas {
+            display: none;
+            border: 1px solid #ccc;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Nút Bật Nhạc -->
+        <button class="button music" onclick="playMusic()">Bật Nhạc</button>
+        
+        <!-- Nút Chuyển Trang -->
+        <a href="a.html" class="button link">Chuyển đến A.html</a>
+    </div>
+
+    <!-- Canvas cho hoạt hình (ban đầu ẩn đi) -->
+    <canvas id="canvas"></canvas>
+
+    <!-- Thẻ audio chứa nhạc -->
+    <audio id="birthdaySong" preload="auto">
+        <source src="birthday_song.mp3" type="audio/mp3">
+        Trình duyệt của bạn không hỗ trợ thẻ audio.
+    </audio>
+
+    <script>
+        // Cài đặt canvas và kích thước
+        var c = document.getElementById('canvas');
+        var ctx = c.getContext('2d');
+        
+        // Cập nhật kích thước canvas theo cửa sổ
+        function resizeCanvas() {
+            c.width = window.innerWidth;
+            c.height = window.innerHeight - 100; // Giảm bớt cho các nút
+            ctx.clearRect(0, 0, c.width, c.height); // Xóa vùng vẽ cũ
+        }
+
+        // Lắng nghe sự kiện thay đổi kích thước cửa sổ
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas(); // Gọi hàm resize khi trang được tải
+
+        // Ví dụ hoạt hình đơn giản: vẽ hình tròn di chuyển
+        var x = 50;
+        var y = 50;
+        var dx = 2;
+        var dy = 2;
+
+        function draw() {
+            ctx.clearRect(0, 0, c.width, c.height); // Xóa canvas
+
+            // Vẽ hình tròn
+            ctx.beginPath();
+            ctx.arc(x, y, 30, 0, Math.PI * 2);
+            ctx.fillStyle = '#FF6347';
+            ctx.fill();
+
+            // Di chuyển hình tròn
+            x += dx;
+            y += dy;
+
+            // Nếu hình tròn chạm biên, đảo hướng
+            if (x + 30 > c.width || x - 30 < 0) {
+                dx = -dx;
+            }
+            if (y + 30 > c.height || y - 30 < 0) {
+                dy = -dy;
+            }
+
+            // Lặp lại vẽ mỗi 16ms (60fps)
+            requestAnimationFrame(draw);
+        }
+
+        // Bắt đầu hoạt hình
+        function playMusic() {
+            var music = document.getElementById("birthdaySong");
+            music.play(); // Phát nhạc khi nhấn nút
+            document.getElementById("canvas").style.display = "block"; // Hiển thị canvas khi nhấn nút
+            draw(); // Bắt đầu vẽ hoạt hình
+        }
+    </script>
+</body>
+</html>
