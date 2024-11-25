@@ -40,7 +40,8 @@ $('a[href*="#"]')
       $("html, body").animate(
         {
           // Adjust scrolling position with a 70px offset
-          scrollTop: $(hash).offset().top - 70,
+          // scrollTop: $(hash).offset().top - 70,
+          scrollTop: $(hash).offset().top - 3.875
         },
         800,
         function () {
